@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: staging
+  labels:
+    app: backend
+spec:
+  replicas: 3  # Increase replicas for high availability
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: webstore-backend:staging  # Use staging image
+        ports:
+        - containerPort: 5205
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Production"
+          - name: ConnectionStrings__DefaultConnection
+            value: "Host=database-service;Port=5432;Database=StoreManagementSystem;Username=postgres;Password=bejda123"
+        resources:
+          requests:
+            cpu: "25m"
+            memory: "64Mi"
+          limits:
+            cpu: "50m"
+            memory: "128Mi"

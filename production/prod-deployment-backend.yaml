@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: production  # Changed namespace to production
+  labels:
+    app: backend
+spec:
+  replicas: 3  # Increased replicas for higher reliability in production
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: webstore-backend:production  # Changed image tag to production
+        ports:
+        - containerPort: 5205
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Production"
+          - name: ConnectionStrings__DefaultConnection
+            value: "Host=database-service;Port=5432;Database=StoreManagementSystem;Username=postgres;Password=bejda123"
+        resources:
+          requests:
+            cpu: "150m"  # Increased resource requests for production
+            memory: "100Mi"
+          limits:
+            cpu: "300m"  # Increased resource limits for production
+            memory: "256Mi"

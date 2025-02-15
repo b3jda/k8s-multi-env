@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+  namespace: production
+  labels:
+    app: database
+spec:
+  serviceName: "database"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "StoreManagementSystem"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "bejda123"
+          resources:
+            requests:
+              cpu: "100m"      # Reduced CPU request
+              memory: "16Mi"   # Reduced memory request to 16Mi
+            limits:
+              cpu: "200m"      # Reduced CPU limit
+              memory: "64Mi"  # Reduced memory limit to 100Mi
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: db-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi

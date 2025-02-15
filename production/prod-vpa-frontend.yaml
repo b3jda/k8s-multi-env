@@ -1,0 +1,12 @@
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: frontend-vpa
+  namespace: production  # Changed namespace to production
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend-deployment
+  updatePolicy:
+    updateMode: "Auto"  # Keep in Auto mode for automatic resource adjustments

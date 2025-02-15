@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: production  # Changed namespace to production
+  labels:
+    app: frontend
+spec:
+  replicas: 3  # Increased replicas for better availability in production
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: webstore-frontend:production  # Changed image tag to production
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        env:
+          - name: BACKEND_URL
+            value: "http://backend-service:5300"  # Changed to backend-service for inter-service communication
+        resources:
+          requests:
+            cpu: "50m"  # Increased resource requests for production
+            memory: "64Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+      nodeSelector:
+        kubernetes.io/hostname: minikube
