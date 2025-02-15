@@ -9,5 +9,5 @@ spec:
     kind: Deployment
     name: frontend-deployment
   updatePolicy:
-    updateMode: "Off"  # No auto-updates to avoid accidental changes
+    updateMode: "Off"  
   

@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
-  namespace: production  # Changed namespace to production
+  namespace: production  
   labels:
     app: frontend
 spec:
-  replicas: 3  # Increased replicas for better availability in production
+  replicas: 3  
   selector:
     matchLabels:
       app: frontend

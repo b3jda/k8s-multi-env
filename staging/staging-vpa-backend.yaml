@@ -9,4 +9,4 @@ spec:
     kind: Deployment
     name: backend-deployment
   updatePolicy:
-    updateMode: "Off"  # Recommendation mode only (no auto-updates)
+    updateMode: "Off"  
